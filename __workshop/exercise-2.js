@@ -1,19 +1,24 @@
 // Exercise 2 - `getIssPosition`
 // -----------------------------
 
-const request = require('request-promise');
+const request = require("request-promise");
 
 const getIssPosition = async () => {
   try {
-    const response = await request(/* fill this in */);
-    const issLocation = JSON.parse(/* fill this in */);
+    // first we request information from the api server
+    const response = await request("http://api.open-notify.org/iss-now.json");
+    // then we parse the data that we receive
+    const issLocation = JSON.parse(response);
+    // then we return the data we need, referencing the particular values within the parsed data object
     return {
-      lat: /* fill this in */,
-      lng: /* fill this in */,
+      lat: issLocation.iss_position.latitude,
+      lng: issLocation.iss_position.longitude,
     };
   } catch (err) {
-    console.log('Error: ', err);
+    console.log("Error: ", err);
   }
 };
 
-console.log(getIssPosition());
+getIssPosition().then((result) => {
+  console.log(result);
+});
